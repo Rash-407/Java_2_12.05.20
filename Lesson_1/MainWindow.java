@@ -10,7 +10,7 @@ public class MainWindow extends JFrame {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
 
-    Sprite[] sprites = new Sprite[100];
+    Sprite[] sprites = new Sprite[10];
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -52,29 +52,6 @@ public class MainWindow extends JFrame {
     private void render(MainCanvas canvas, Graphics g) {
         for (int i = 0; i < sprites.length; i++) {
             sprites[i].render(canvas, g);
-        }
-    }
-
-    private static void method1(Animal a) {
-        a.name = "Barsik";
-    }
-
-    private static void sum(int a, int b) {
-
-    }
-
-    private static void typecastExample() {
-        Cat c = new Cat("Barsik");
-        Bird b = new Bird("Chijik");
-
-        Animal[] zoo = {c, b};
-
-        for (int i = 0; i < zoo.length; i++) {
-            zoo[i].walk();
-
-            if (zoo[i] instanceof Bird) {
-                ( (Bird) zoo[i] ).fly();
-            }
         }
     }
 }
