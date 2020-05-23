@@ -2,10 +2,12 @@ package Lesson_3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        taskOne();
+        //taskOne();
+        taskTwo();
     }
 
     private static void taskOne () {
@@ -24,5 +26,30 @@ public class Main {
         }
 
         System.out.println(score);
+    }
+
+    private static void taskTwo () {
+        PhoneBook phoneBook = new PhoneBook();
+        phoneBook.createPhoneBook();
+
+        System.out.println("Что будем искать?");
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Если номер, то введите \"1\", если E-mail, то введите \"2\": ");
+            if (sc.hasNextInt()) {
+                int number = sc.nextInt();
+                if (number == 1) {
+                    phoneBook.getNumbers();
+                    return;
+                }
+                if (number == 2) {
+                    phoneBook.getEmails();
+                    return;
+                }
+                else System.err.println("Извините, но вы ввели что-то другое. Попробуйте снова!");
+            } else {
+                System.err.println("Извините, но вы ввели что-то другое. Попробуйте снова!");
+            }
+        }
     }
 }
