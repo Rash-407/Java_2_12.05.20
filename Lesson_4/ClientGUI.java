@@ -2,8 +2,7 @@ package Lesson_4;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class ClientGUI extends JFrame implements ActionListener, Thread.UncaughtExceptionHandler {
 
@@ -18,6 +17,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
     private final JTextField tfLogin = new JTextField("ivan");
     private final JPasswordField tfPassword = new JPasswordField("123");
     private final JButton btnLogin = new JButton("Login");
+    //создать файл
 
     private final JPanel panelBottom = new JPanel(new BorderLayout());
     private final JButton btnDisconnect = new JButton("<html><b>Disconnect</b></html>");
@@ -65,7 +65,25 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         add(panelTop, BorderLayout.NORTH);
         add(panelBottom, BorderLayout.SOUTH);
 
+        btnSend.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                sendMessage();
+            }
+        });
+
+        tfMessage.addActionListener((ActionEvent e) -> { sendMessage(); }); // :)
+
+
         setVisible(true);
+    }
+
+    private void sendMessage () {
+        String tx = tfMessage.getText();
+        tfMessage.setText("");
+        log.append(tx+"\n");
+        //запись в файл
+        tfMessage.requestFocus();
     }
 
 
