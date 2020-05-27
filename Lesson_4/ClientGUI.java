@@ -2,8 +2,7 @@ package Lesson_4;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class ClientGUI extends JFrame implements ActionListener, Thread.UncaughtExceptionHandler {
 
@@ -18,6 +17,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
     private final JTextField tfLogin = new JTextField("ivan");
     private final JPasswordField tfPassword = new JPasswordField("123");
     private final JButton btnLogin = new JButton("Login");
+    //создать файл
 
     private final JPanel panelBottom = new JPanel(new BorderLayout());
     private final JButton btnDisconnect = new JButton("<html><b>Disconnect</b></html>");
@@ -48,6 +48,8 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         userList.setListData(users);
         scrollUser.setPreferredSize(new Dimension(100, 0));
         cbAlwaysOnTop.addActionListener(this);
+        btnSend.addActionListener(this);
+        tfMessage.addActionListener(this);
 
         panelTop.add(tfIPAddress);
         panelTop.add(tfPort);
@@ -68,15 +70,22 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         setVisible(true);
     }
 
+    private void sendMessage () {
+        if (tfMessage.getText().trim().isEmpty()) return;
+        String tx = tfMessage.getText().trim();
+        tfMessage.setText("");
+        log.append(tfLogin.getText()+": "+tx+"\n");
+        //запись в файл
+        tfMessage.requestFocus();
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-        if (src == cbAlwaysOnTop) {
-            setAlwaysOnTop(cbAlwaysOnTop.isSelected());
-        } else {
-            throw new RuntimeException("Unknown source: " + src);
-        }
+        if (src == cbAlwaysOnTop) setAlwaysOnTop(cbAlwaysOnTop.isSelected());
+        else if (src == tfMessage || src == btnSend) sendMessage();
+        else throw new RuntimeException("Unknown source: " + src);
     }
 
     @Override
