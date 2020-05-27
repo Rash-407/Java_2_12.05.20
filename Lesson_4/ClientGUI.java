@@ -48,6 +48,8 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         userList.setListData(users);
         scrollUser.setPreferredSize(new Dimension(100, 0));
         cbAlwaysOnTop.addActionListener(this);
+        btnSend.addActionListener(this);
+        tfMessage.addActionListener(this);
 
         panelTop.add(tfIPAddress);
         panelTop.add(tfPort);
@@ -65,23 +67,14 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         add(panelTop, BorderLayout.NORTH);
         add(panelBottom, BorderLayout.SOUTH);
 
-        btnSend.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                sendMessage();
-            }
-        });
-
-        tfMessage.addActionListener((ActionEvent e) -> { sendMessage(); }); // :)
-
-
         setVisible(true);
     }
 
     private void sendMessage () {
-        String tx = tfMessage.getText();
+        if (tfMessage.getText().trim().isEmpty()) return;
+        String tx = tfMessage.getText().trim();
         tfMessage.setText("");
-        log.append(tx+"\n");
+        log.append(tfLogin.getText()+": "+tx+"\n");
         //запись в файл
         tfMessage.requestFocus();
     }
@@ -90,11 +83,9 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-        if (src == cbAlwaysOnTop) {
-            setAlwaysOnTop(cbAlwaysOnTop.isSelected());
-        } else {
-            throw new RuntimeException("Unknown source: " + src);
-        }
+        if (src == cbAlwaysOnTop) setAlwaysOnTop(cbAlwaysOnTop.isSelected());
+        else if (src == tfMessage || src == btnSend) sendMessage();
+        else throw new RuntimeException("Unknown source: " + src);
     }
 
     @Override
